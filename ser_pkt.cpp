@@ -133,9 +133,12 @@ uint8_t* getSerialPacket()
 				success = 1;
 				break;
 			}
+			//fixes problem w/ xbee starting new packet where legnth should be.
+			if ((data[4] != 0)&&((data[4]==START_OF_MSG0)||(data[4]==START_OF_MSG1)||(data[4]>128) ))
+				return NULL;
 			// delay if there's not enough data:
 			if (Serial.available() == 0) {
-				delay(10);
+				delay(1);
 				timeout++;
 			}
 			// got data, cache it:
