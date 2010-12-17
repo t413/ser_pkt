@@ -25,6 +25,18 @@
 /*---------      send data      ---------*/
 /*****************************************/
 
+void send_some_int16s(uint8_t pktID, uint8_t pktTYPE, int16_t * values, uint8_t number){
+	uint8_t data[128/2] = ""; //max number of 8bit chars to send = 128
+	uint8_t * buf = data;	// copy the pointer
+	unsigned int i=0;
+	for(unsigned int j=0; j < number; j++){
+		buf[i++] = (values[j] & 0xFF);
+		buf[i++] = (values[j] >> 8);
+	}
+	
+	send_packet(pktID, pktTYPE, data, i );		//buf-data is the length of the datastream
+}
+
 // Input:
 //	- packet id,        - packet type,         -- 4x 16 bit int (only first one is required)
 void send_int16_packet(uint8_t pktID, uint8_t pktTYPE, int16_t in0,int16_t in1,int16_t in2,int16_t in3){
@@ -74,6 +86,14 @@ void send_float_packet(uint8_t pktID, uint8_t pktTYPE, float d0, float d1){
 //	- very spesific structure, must be correctly decoded
 //	- Input: pointer to encoded array. the legnth is part of the datatype spec.
 //	- Returns: ...
+
+void decode_some_int16s( uint8_t * buf, int16_t * values, uint8_t number ) {
+	for(unsigned int i=0, j=0; j < number; ){
+		values[j++] = buf[i] | (buf[i+1] << 8);
+		i += 2;
+	}
+}
+
 ACCtelem decode_acc_data( uint8_t * buf ) {
     ACCtelem telem;
 	

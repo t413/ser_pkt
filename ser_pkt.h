@@ -63,6 +63,7 @@ typedef struct {
 /*****************************************/
 /**********		declarations	**********/
 /*****************************************/
+void send_some_int16s(uint8_t pktID, uint8_t pktTYPE, int16_t * values, uint8_t number);
 void send_int16_packet(uint8_t,uint8_t, int16_t in0,int16_t in1 = 0,int16_t in2 = 0,int16_t in3 = 0);
 void send_float_packet(uint8_t,uint8_t, float d0, float d1=0);
 void send_byte_packet(uint8_t,uint8_t, uint8_t in0 = 0);
@@ -74,6 +75,7 @@ void ugear_cksum (const uint8_t,const uint8_t,const uint8_t*,const uint8_t,uint8
 uint8_t* getSerialPacket();
 uint8_t* getDataFromPacket (uint8_t* );
 
+void decode_some_int16s( uint8_t * buf, int16_t * values, uint8_t number );
 ACCtelem decode_acc_data( uint8_t *buf );
 FourU16 decode_4xint16( uint8_t *buf );
 
